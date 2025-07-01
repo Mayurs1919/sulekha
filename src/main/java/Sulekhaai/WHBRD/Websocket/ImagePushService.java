@@ -1,16 +1,20 @@
 package Sulekhaai.WHBRD.Websocket;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Service;
 
 @Service
 public class ImagePushService {
 
-    @Autowired
-    private SimpMessagingTemplate messagingTemplate;
+    private final SimpMessagingTemplate messagingTemplate;
 
-    public void push(String cameraId, String base64Img) {
-        messagingTemplate.convertAndSend("/topic/image/" + cameraId, base64Img);
+    public ImagePushService(SimpMessagingTemplate messagingTemplate) {
+        this.messagingTemplate = messagingTemplate;
+    }
+
+    public void push(String cameraId, String base64Image) {
+        // WebSocket destination: /topic/preview/{cameraId}
+        String destination = "/topic/preview/" + cameraId;
+        messagingTemplate.convertAndSend(destination, base64Image);
     }
 }
