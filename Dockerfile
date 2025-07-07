@@ -13,4 +13,4 @@ RUN ./mvnw clean package -DskipTests
 RUN ls -al target
 
 EXPOSE 8080
-CMD ["java", "-jar", "target/whbrd-0.0.1-SNAPSHOT.jar"]
+CMD ["sh", "-c", "java -jar target/*.jar"]
