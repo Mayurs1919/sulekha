@@ -1,0 +1,8 @@
+target/
+uploads/
+.git
+.env
+.env.local
+compose.yaml
+*.iml
+.idea/
