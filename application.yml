@@ -17,12 +17,6 @@ spring:
         dialect: org.hibernate.dialect.MySQLDialect
         format_sql: true
 
-jwt:
-  secret: ${JWT_SECRET}
-  secret:
-    expiration: 86400000
-
-spring:
   mail:
     host: smtp.gmail.com
     port: 587
@@ -35,3 +29,7 @@ spring:
       mail.smtp.connectiontimeout: 5000
       mail.smtp.timeout: 5000
       mail.smtp.writetimeout: 5000
+
+jwt:
+  secret: ${JWT_SECRET}
+  secret.expiration: 86400000
