@@ -1,16 +1,14 @@
-FROM eclipse-temurin:17-jdk-alpine
-LABEL "language"="java"
-LABEL "framework"="spring-boot"
+# Use OpenJDK 17 base image
+FROM openjdk:17-jdk-slim
+
+# Set working directory
 WORKDIR /app
-COPY .mvn/ .mvn
-COPY mvnw pom.xml ./
-RUN chmod +x mvnw
-RUN ./mvnw dependency:go-offline
-COPY . .
-RUN ./mvnw clean package -DskipTests
 
-# Debug: show JAR file presence
-RUN ls -al target
+# Copy jar from target
+COPY target/whbrd-0.0.1-SNAPSHOT.jar app.jar
 
+# Expose port 8080
 EXPOSE 8080
-CMD ["sh", "-c", "java -jar target/*.jar"]
+
+# Run the JAR
+ENTRYPOINT ["java", "-jar", "app.jar"]

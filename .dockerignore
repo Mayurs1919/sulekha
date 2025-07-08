@@ -1,8 +1,7 @@
 target/
-uploads/
 .git
+.gitignore
 .env
-.env.local
-compose.yaml
+.idea
 *.iml
-.idea/
+*.log
