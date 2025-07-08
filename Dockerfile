@@ -1,14 +1,23 @@
-# Use OpenJDK 17 base image
-FROM openjdk:17-jdk-slim
-
-# Set working directory
+# ----------- Build Stage -------------
+FROM maven:3.9.6-eclipse-temurin-17 AS build
 WORKDIR /app
 
-# Copy jar from target
-COPY target/whbrd-0.0.1-SNAPSHOT.jar app.jar
+# Copy Maven configuration and source code
+COPY pom.xml .
+COPY src ./src
 
-# Expose port 8080
+# Build the project (skip tests to speed up build)
+RUN mvn clean package -DskipTests
+
+# ----------- Runtime Stage -------------
+FROM openjdk:17-jdk-slim
+WORKDIR /app
+
+# Copy the JAR from the build stage
+COPY --from=build /app/target/*.jar app.jar
+
+# Expose application port
 EXPOSE 8080
 
-# Run the JAR
+# Start the Spring Boot application
 ENTRYPOINT ["java", "-jar", "app.jar"]
