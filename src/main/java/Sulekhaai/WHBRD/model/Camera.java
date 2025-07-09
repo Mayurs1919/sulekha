@@ -1,6 +1,8 @@
 package Sulekhaai.WHBRD.model;
 
 import jakarta.persistence.*;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 public class Camera {
@@ -9,61 +11,37 @@ public class Camera {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(unique = true)  // Ensures cameraId is unique (optional but recommended)
+    @Column(unique = true)
     private String cameraId;
 
     private String deviceName;
-    private Long userId;
     private boolean active;
     private boolean online;
 
-    // Getters and Setters
+    @ManyToMany(mappedBy = "cameras")
+    private Set<UserEntity> users = new HashSet<>();
 
-    public Long getId() {
-        return id;
-    }
+    public Long getId() { return id; }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
+    public void setId(Long id) { this.id = id; }
 
-    public String getCameraId() {
-        return cameraId;
-    }
+    public String getCameraId() { return cameraId; }
 
-    public void setCameraId(String cameraId) {
-        this.cameraId = cameraId;
-    }
+    public void setCameraId(String cameraId) { this.cameraId = cameraId; }
 
-    public String getDeviceName() {
-        return deviceName;
-    }
+    public String getDeviceName() { return deviceName; }
 
-    public void setDeviceName(String deviceName) {
-        this.deviceName = deviceName;
-    }
+    public void setDeviceName(String deviceName) { this.deviceName = deviceName; }
 
-    public Long getUserId() {
-        return userId;
-    }
+    public boolean isActive() { return active; }
 
-    public void setUserId(Long userId) {
-        this.userId = userId;
-    }
+    public void setActive(boolean active) { this.active = active; }
 
-    public boolean isActive() {
-        return active;
-    }
+    public boolean isOnline() { return online; }
 
-    public void setActive(boolean active) {
-        this.active = active;
-    }
+    public void setOnline(boolean online) { this.online = online; }
 
-    public boolean isOnline() {
-        return online;
-    }
+    public Set<UserEntity> getUsers() { return users; }
 
-    public void setOnline(boolean online) {
-        this.online = online;
-    }
+    public void setUsers(Set<UserEntity> users) { this.users = users; }
 }

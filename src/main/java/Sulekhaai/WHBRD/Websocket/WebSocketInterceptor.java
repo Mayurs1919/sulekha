@@ -3,6 +3,7 @@ package Sulekhaai.WHBRD.Websocket;
 import Sulekhaai.WHBRD.util.JwtUtil;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.server.ServerHttpRequest;
 import org.springframework.http.server.ServerHttpResponse;
 import org.springframework.http.server.ServletServerHttpRequest;
@@ -32,15 +33,23 @@ public class WebSocketInterceptor implements HandshakeInterceptor {
             String token = httpReq.getParameter("token");
 
             if (token != null && jwtUtil.validateToken(token)) {
-                Long userId = jwtUtil.extractUserId(token);
-                String role = jwtUtil.extractUserRole(token);
-                attributes.put("userId", userId);
-                attributes.put("role", role);
-                return true;
+                try {
+                    Long userId = jwtUtil.extractUserId(token);
+                    String role = jwtUtil.extractUserRole(token);
+                    String email = jwtUtil.extractEmail(token);
+
+                    attributes.put("userId", userId);
+                    attributes.put("role", role);
+                    attributes.put("email", email); // Optional, if you need it later
+
+                    return true;
+                } catch (Exception e) {
+                    System.out.println("Token validation error: " + e.getMessage());
+                }
             }
         }
 
-        response.setStatusCode(org.springframework.http.HttpStatus.FORBIDDEN);
+        response.setStatusCode(HttpStatus.FORBIDDEN);
         return false;
     }
 

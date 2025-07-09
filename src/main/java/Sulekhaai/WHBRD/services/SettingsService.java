@@ -11,11 +11,11 @@ import java.time.LocalDateTime;
 @Service
 public class SettingsService {
 
-    @Autowired private UserSettingsRepo settingsRepo;
+    @Autowired private UserSettingsRepository settingsRepo;
     @Autowired private SyncStatusRepo   syncRepo;
 
     public UserSettings getProfile(String email) {
-        return settingsRepo.findById(email).orElse(null);
+        return settingsRepo.findByEmail(email).orElse(null);
     }
 
     public void saveProfile(UserSettings settings) {

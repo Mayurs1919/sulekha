@@ -15,19 +15,20 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
 
     @Override
     public void registerStompEndpoints(@NonNull StompEndpointRegistry registry) {
-        registry.addEndpoint("/ws/preview")  // ✅ Matching /ws/preview/cameraId?token=...
+        registry.addEndpoint("/ws/preview")
                 .addInterceptors(webSocketInterceptor)
                 .setAllowedOrigins(
                     "http://localhost:5173",
                     "http://192.168.1.63:5173",
-                    "http://192.168.1.63:5174"
-                );
-        // ❌ Do not use .withSockJS() if frontend is native WebSocket
+                    "http://192.168.1.63:5174",
+                    "https://sulekha-ai.netlify.app"
+                ); // ✅ Add Render frontend too if needed
+        // ⚠️ Do not add .withSockJS() unless your frontend explicitly uses SockJS
     }
 
     @Override
     public void configureMessageBroker(@NonNull MessageBrokerRegistry config) {
-        config.enableSimpleBroker("/topic");              // ✅ Backend to frontend topic path
-        config.setApplicationDestinationPrefixes("/app"); // ✅ Frontend to backend messages (optional)
+        config.enableSimpleBroker("/topic");               // Server -> Client
+        config.setApplicationDestinationPrefixes("/app");  // Client -> Server
     }
 }

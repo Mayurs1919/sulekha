@@ -94,7 +94,7 @@ public class CameraController {
                 "message", ok ? "Camera linked" : "Link failed"));
     }
 
-    @PostMapping("/disconnect_camera")
+    @PostMapping("/api/disconnect_camera")
     public ResponseEntity<Map<String, Object>> disconnectCamera(@RequestBody Map<String, Object> req) {
         boolean result = cameraService.disconnectCamera(req);
         if (result) {

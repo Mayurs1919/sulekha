@@ -16,4 +16,6 @@ public class LogEntry {
     private String action;
     private String username;
     private LocalDateTime timestamp;
+
+    public void setTimestamp(java.time.LocalDateTime timestamp) { this.timestamp = timestamp; }
 }
