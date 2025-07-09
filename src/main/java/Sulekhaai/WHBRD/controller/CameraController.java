@@ -13,7 +13,7 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 @CrossOrigin(
-        origins = {"http://localhost:5173", "http://192.168.1.63:5173"},
+        origins = {"http://localhost:5173", "http://192.168.1.63:5173","https://sulekha-ai.netlify.app"},
         allowCredentials = "true")
 @RestController
 @RequestMapping("/api")
