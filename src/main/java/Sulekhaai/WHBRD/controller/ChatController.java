@@ -4,6 +4,7 @@ import com.theokanning.openai.service.OpenAiService;
 import com.theokanning.openai.completion.CompletionChoice;
 import com.theokanning.openai.completion.CompletionRequest;
 
+import jakarta.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -18,14 +19,26 @@ import java.util.Map;
 })
 public class ChatController {
 
-    private final OpenAiService openAiService;
+    @Value("${openai.api.key:}")
+    private String openaiApiKey;
 
-    public ChatController(@Value("${openai.api.key}") String openaiApiKey) {
-        this.openAiService = new OpenAiService(openaiApiKey);
+    private OpenAiService openAiService;
+
+    @PostConstruct
+    public void init() {
+        if (openaiApiKey == null || openaiApiKey.isBlank()) {
+            System.err.println("[ERROR] OpenAI API key is missing. Please set 'openai.api.key' in environment variables.");
+        } else {
+            this.openAiService = new OpenAiService(openaiApiKey);
+        }
     }
 
     @PostMapping
     public ResponseEntity<?> chat(@RequestBody Map<String, String> body) {
+        if (openAiService == null) {
+            return ResponseEntity.status(500).body(Map.of("reply", "OpenAI API key is not configured on the server."));
+        }
+
         String prompt = body.get("prompt");
         if (prompt == null || prompt.trim().isEmpty()) {
             return ResponseEntity.badRequest().body(Map.of("reply", "Prompt is required."));
