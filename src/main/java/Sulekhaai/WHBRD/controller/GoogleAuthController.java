@@ -35,17 +35,15 @@ public class GoogleAuthController {
                 String email = payload.getEmail();
                 String name = (String) payload.get("name");
 
-                // Save or find user
                 UserEntity user = userRepo.findByEmail(email)
                         .orElseGet(() -> {
                             UserEntity newUser = new UserEntity();
                             newUser.setEmail(email);
                             newUser.setName(name);
-                            newUser.setRole("ROLE_USER"); // default role
+                            newUser.setRole("ROLE_USER");
                             return userRepo.save(newUser);
                         });
 
-                // ✅ Correct method signature: (email, userId, role)
                 String jwt = jwtUtil.generateToken(user.getEmail(), user.getId(), user.getRole());
 
                 return ResponseEntity.ok(Map.of(
@@ -60,7 +58,7 @@ public class GoogleAuthController {
                 ));
             }
         } catch (Exception e) {
-            e.printStackTrace(); // log for debugging
+            e.printStackTrace();
             return ResponseEntity.status(500).body(Map.of(
                     "success", false,
                     "message", "Internal server error"
