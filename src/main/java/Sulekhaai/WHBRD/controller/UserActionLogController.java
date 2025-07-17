@@ -45,8 +45,4 @@ public class UserActionLogController {
 
         return logRepo.save(log);
     }
-<<<<<<< HEAD
-}
-=======
-}
->>>>>>> 45f4df5 (Updated Spring Boot backend: added, modified, and deleted files)
+

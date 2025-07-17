@@ -34,8 +34,4 @@ public class GlobalErrorHandler implements ErrorController {
         HttpStatus status = HttpStatus.valueOf((int) errorDetails.getOrDefault("status", 500));
         return new ResponseEntity<>(customError, status);
     }
-<<<<<<< HEAD
-}
-=======
-}
->>>>>>> 45f4df5 (Updated Spring Boot backend: added, modified, and deleted files)
+

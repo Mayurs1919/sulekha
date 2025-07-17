@@ -6,17 +6,17 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @CrossOrigin(
-        origins = { "http://localhost:5173",
-<<<<<<< HEAD
-                    "http://192.168.1.63:5173",
-=======
-                    "http://192.168.1.63:8080",
->>>>>>> 45f4df5 (Updated Spring Boot backend: added, modified, and deleted files)
-                "https://sulekha-aii.netlify.app" },
+        origins = {
+            "http://localhost:5173",
+            "http://192.168.1.63:5173",    // from HEAD
+            "http://192.168.1.63:8080",    // from 45f4df5
+            "https://sulekha-aii.netlify.app"
+        },
         allowCredentials = "true")
 @RestController
 @RequestMapping("/dashboard")
 public class DashboardController {
+
 
     @Autowired
     private DashboardService dashboardService;
