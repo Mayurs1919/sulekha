@@ -34,20 +34,20 @@ public class SecurityConfig {
             .cors(cors -> cors.configurationSource(corsConfigurationSource()))
             .sessionManagement(sm -> sm.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
             .authorizeHttpRequests(auth -> auth
-                // ✅ Public endpoints
+                // Public endpoints
                 .requestMatchers("/", "/index.html", "/error").permitAll()
                 .requestMatchers("/auth/**", "/test-connection", "/send-otp", "/verify-otp").permitAll()
                 .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
 
-                // ✅ Stream endpoints
+                // Stream endpoints
                 .requestMatchers("/stream/**").permitAll()
                 .requestMatchers(HttpMethod.GET, "/api/proxy/stream").permitAll()
                 .requestMatchers(HttpMethod.POST, "/api/proxy/stream").permitAll()
 
-                // ✅ Device actions
+                // Device actions
                 .requestMatchers("/api/disconnect_camera").hasAnyAuthority("ROLE_USER", "ROLE_ADMIN")
 
-                // 🔐 Authenticated APIs
+                // Authenticated APIs
                 .requestMatchers("/api/cameras/connected/**").hasAnyAuthority("ROLE_USER", "ROLE_ADMIN")
                 .requestMatchers(
                     "/dashboard/**",
@@ -60,7 +60,7 @@ public class SecurityConfig {
                     "/api/logs/**"
                 ).hasAnyAuthority("ROLE_USER", "ROLE_ADMIN")
 
-                // 🔐 Catch-all
+                // Catch-all
                 .anyRequest().authenticated()
             );
 
@@ -77,17 +77,17 @@ public class SecurityConfig {
             "http://localhost:3000",
             "http://127.0.0.1:5173",
             "http://127.0.0.1:3000",
-            // ProductionList<String> allowedOrigins = List.of(
-    "https://sulekha-ai.netlify.app",        // from HEAD
-    "https://sulekha-w89v.onrender.com",     // from HEAD
-    "https://sulekha-aii.netlify.app",       // common
+
+            // Production
+            "https://sulekha-ai.netlify.app",
+            "https://sulekha-w89v.onrender.com",
+            "https://sulekha-aii.netlify.app"
         ));
-config.setAllowedOrigins(allowedOrigins);
-config.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
-config.setAllowedHeaders(List.of("Authorization", "Content-Type", "Accept"));
-config.setExposedHeaders(List.of("Authorization"));
-config.setAllowCredentials(true);
-config.setMaxAge(3600L);
+        config.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
+        config.setAllowedHeaders(List.of("Authorization", "Content-Type", "Accept"));
+        config.setExposedHeaders(List.of("Authorization"));
+        config.setAllowCredentials(true);
+        config.setMaxAge(3600L);
 
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", config);

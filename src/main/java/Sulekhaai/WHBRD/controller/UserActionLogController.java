@@ -17,26 +17,27 @@ public class UserActionLogController {
     @Autowired
     private UserActionLogRepository logRepo;
 
-    // ✅ Explicit GET endpoint to avoid ambiguity
+    // GET all logs
     @GetMapping("/all")
     public List<UserActionLog> getAllLogs() {
         return logRepo.findAll();
     }
 
-    // ✅ Explicit POST endpoint to avoid ambiguity
+    // POST save a log
     @PostMapping("/save")
     public UserActionLog logAction(@RequestBody Map<String, String> payload, Principal principal) {
         UserActionLog log = new UserActionLog();
 
-        // Allow userId directly or from the logged-in principal
         if (payload.containsKey("userId")) {
             try {
                 log.setUserId(Long.parseLong(payload.get("userId")));
-            } catch (Exception ignored) {}
+            } catch (Exception ignored) {
+            }
         } else if (principal != null) {
             try {
                 log.setUserId(Long.parseLong(principal.getName()));
-            } catch (Exception ignored) {}
+            } catch (Exception ignored) {
+            }
         }
 
         log.setAction(payload.getOrDefault("action", payload.getOrDefault("details", "unknown")));
@@ -44,5 +45,5 @@ public class UserActionLogController {
         log.setTimestamp(LocalDateTime.now());
 
         return logRepo.save(log);
+    }
 }
-

@@ -34,4 +34,4 @@ public class GlobalErrorHandler implements ErrorController {
         HttpStatus status = HttpStatus.valueOf((int) errorDetails.getOrDefault("status", 500));
         return new ResponseEntity<>(customError, status);
     }
-
+}
