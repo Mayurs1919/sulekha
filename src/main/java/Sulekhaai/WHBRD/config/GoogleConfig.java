@@ -8,7 +8,7 @@ import org.springframework.context.annotation.Configuration;
 import java.util.Collections;
 
 @Configuration
-public class GoogleVerifierConfig {
+public class GoogleConfig {   // <-- rename class here to match filename
 
     @Bean
     public GoogleIdTokenVerifier googleIdTokenVerifier() {
