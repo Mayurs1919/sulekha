@@ -44,5 +44,5 @@ public class UserActionLogController {
         log.setTimestamp(LocalDateTime.now());
 
         return logRepo.save(log);
-    }
+}
 

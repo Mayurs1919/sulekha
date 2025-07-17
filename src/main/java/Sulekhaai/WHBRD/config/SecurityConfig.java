@@ -81,7 +81,7 @@ public class SecurityConfig {
     "https://sulekha-ai.netlify.app",        // from HEAD
     "https://sulekha-w89v.onrender.com",     // from HEAD
     "https://sulekha-aii.netlify.app",       // common
-        );
+        ));
 config.setAllowedOrigins(allowedOrigins);
 config.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
 config.setAllowedHeaders(List.of("Authorization", "Content-Type", "Accept"));
