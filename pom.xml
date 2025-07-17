@@ -100,11 +100,13 @@
 
 
         <!-- Lombok -->
-        <dependency>
-            <groupId>org.projectlombok</groupId>
-            <artifactId>lombok</artifactId>
-            <optional>true</optional>
-        </dependency>
+       <dependency>
+    <groupId>org.projectlombok</groupId>
+    <artifactId>lombok</artifactId>
+    <version>1.18.26</version> <!-- or latest stable -->
+    <scope>provided</scope>
+</dependency>
+
 
         <!-- Dev Tools -->
         <dependency>
