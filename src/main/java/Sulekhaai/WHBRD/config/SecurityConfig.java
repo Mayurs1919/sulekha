@@ -78,9 +78,14 @@ public class SecurityConfig {
             "http://127.0.0.1:5173",
             "http://127.0.0.1:3000",
             // Production
+<<<<<<< HEAD
             "https://sulekha-ai.netlify.app",
             "https://sulekha-w89v.onrender.com",
             "https://sulekha-aii.netlify.app"
+=======
+            "https://sulekha-aii.netlify.app",
+            "https://sulekha-w89n.onrender.com"
+>>>>>>> 45f4df5 (Updated Spring Boot backend: added, modified, and deleted files)
         ));
         config.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
         config.setAllowedHeaders(List.of("Authorization", "Content-Type", "Accept"));
