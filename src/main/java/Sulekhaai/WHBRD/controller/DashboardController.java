@@ -8,8 +8,10 @@ import org.springframework.web.bind.annotation.*;
 @CrossOrigin(
         origins = {
             "http://localhost:5173",
-            "http://192.168.1.63:5173",    // from HEAD
-            "http://192.168.1.63:8080",    // from 45f4df5
+            "http://192.168.1.63:5173",   
+            "http://192.168.1.63:8080", 
+            "http://192.168.1.69",  
+            "https://aa68580acfc2.ngrok-free.app",
             "https://sulekha-aii.netlify.app"
         },
         allowCredentials = "true")

@@ -74,14 +74,15 @@ public class SecurityConfig {
         config.setAllowedOrigins(List.of(
             // Local dev
             "http://localhost:5173",
-            "http://localhost:3000",
-            "http://127.0.0.1:5173",
-            "http://127.0.0.1:3000",
+            "http://192.168.1.69:5173",
+            
 
             // Production
+            "https://aa68580acfc2.ngrok-free.app",
+             "https://sulekha-aii.netlify.app",
             "https://sulekha-ai.netlify.app",
-            "https://sulekha-w89v.onrender.com",
-            "https://sulekha-aii.netlify.app"
+            "https://sulekha-w89v.onrender.com"
+            
         ));
         config.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
         config.setAllowedHeaders(List.of("Authorization", "Content-Type", "Accept"));

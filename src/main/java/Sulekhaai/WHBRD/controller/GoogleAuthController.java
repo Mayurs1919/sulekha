@@ -16,6 +16,14 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/auth")
+@CrossOrigin(origins = {
+        "http://localhost:5173",
+        "http://192.168.1.69:5173",
+        "http://192.168.1.69",
+        "https://sulekha-aii.netlify.app",
+        "https://sulekha-w89v.onrender.com",
+        "https://aa68580acfc2.ngrok-free.app",  // ✅ Add your actual Ngrok URL here
+})
 public class GoogleAuthController {
 
     private static final Logger logger = LoggerFactory.getLogger(GoogleAuthController.class);
@@ -31,19 +39,21 @@ public class GoogleAuthController {
 
     @PostMapping("/google")
     public ResponseEntity<?> googleLogin(@RequestBody Map<String, String> body) {
+        String idTokenString = body.get("token");
+
+        if (idTokenString == null || idTokenString.trim().isEmpty()) {
+            logger.warn("Token is missing in request");
+            return ResponseEntity.badRequest().body(Map.of(
+                    "success", false,
+                    "message", "Token is missing"
+            ));
+        }
+
         try {
-            String idTokenString = body.get("token");
-
-            if (idTokenString == null || idTokenString.trim().isEmpty()) {
-                return ResponseEntity.badRequest().body(Map.of(
-                        "success", false,
-                        "message", "Token is missing"
-                ));
-            }
-
             GoogleIdToken idToken = verifier.verify(idTokenString);
 
             if (idToken == null || idToken.getPayload() == null) {
+                logger.warn("Invalid or expired Google token");
                 return ResponseEntity.status(401).body(Map.of(
                         "success", false,
                         "message", "Invalid or expired Google token"
@@ -54,18 +64,16 @@ public class GoogleAuthController {
             String email = payload.getEmail();
             String name = Optional.ofNullable((String) payload.get("name")).orElse("User");
 
-                // Save or find user
-                UserEntity user = userRepo.findByEmail(email)
-                        .orElseGet(() -> {
-                            UserEntity newUser = new UserEntity();
-                            newUser.setEmail(email);
-                            newUser.setName(name);
-                            newUser.setRole("ROLE_USER"); // default role
-                            return userRepo.save(newUser);
-                        });
+            UserEntity user = userRepo.findByEmail(email)
+                    .orElseGet(() -> {
+                        UserEntity newUser = new UserEntity();
+                        newUser.setEmail(email);
+                        newUser.setName(name);
+                        newUser.setRole("ROLE_USER");
+                        return userRepo.save(newUser);
+                    });
 
-                // ✅ Correct method signature: (email, userId, role)
-                String jwt = jwtUtil.generateToken(user.getEmail(), user.getId(), user.getRole());
+            String jwt = jwtUtil.generateToken(user.getEmail(), user.getId(), user.getRole());
 
             return ResponseEntity.ok(Map.of(
                     "success", true,
@@ -79,7 +87,7 @@ public class GoogleAuthController {
             ));
 
         } catch (Exception e) {
-            e.printStackTrace(); // log for debugging
+            logger.error("Google Auth error: {}", e.getMessage(), e);
             return ResponseEntity.status(500).body(Map.of(
                     "success", false,
                     "message", "Internal server error"
