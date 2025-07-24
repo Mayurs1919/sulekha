@@ -17,7 +17,7 @@ import java.util.Map;
         "http://localhost:5173",
         "http://192.168.1.63:5173",
         "http://192.168.1.69",
-        "https://aa68580acfc2.ngrok-free.app",
+        "https://129f83ca5a55.ngrok-free.app ",
         "https://sulekha-aii.netlify.app"
 })
 public class ChatController {

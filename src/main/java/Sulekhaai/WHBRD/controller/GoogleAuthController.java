@@ -22,7 +22,7 @@ import java.util.Optional;
         "http://192.168.1.69",
         "https://sulekha-aii.netlify.app",
         "https://sulekha-w89v.onrender.com",
-        "https://aa68580acfc2.ngrok-free.app",  // ✅ Add your actual Ngrok URL here
+        "https://129f83ca5a55.ngrok-free.app ",  // ✅ Add your actual Ngrok URL here
 })
 public class GoogleAuthController {
 

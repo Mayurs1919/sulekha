@@ -34,21 +34,13 @@ public class SecurityConfig {
             .cors(cors -> cors.configurationSource(corsConfigurationSource()))
             .sessionManagement(sm -> sm.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
             .authorizeHttpRequests(auth -> auth
-                // Public endpoints
                 .requestMatchers("/", "/index.html", "/error").permitAll()
-                .requestMatchers("/auth/**", "/test-connection", "/send-otp", "/verify-otp").permitAll()
+                .requestMatchers("/auth/**", "/test-connection","/login", "/send-otp", "/verify-otp").permitAll()
                 .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
-
-                // Stream endpoints
                 .requestMatchers("/stream/**").permitAll()
                 .requestMatchers(HttpMethod.GET, "/api/proxy/stream").permitAll()
                 .requestMatchers(HttpMethod.POST, "/api/proxy/stream").permitAll()
-
-                // Device actions
                 .requestMatchers("/api/disconnect_camera").hasAnyAuthority("ROLE_USER", "ROLE_ADMIN")
-
-                // Authenticated APIs
-                .requestMatchers("/api/cameras/connected/**").hasAnyAuthority("ROLE_USER", "ROLE_ADMIN")
                 .requestMatchers(
                     "/dashboard/**",
                     "/cameras/**",
@@ -59,8 +51,6 @@ public class SecurityConfig {
                     "/get_connected_devices/**",
                     "/api/logs/**"
                 ).hasAnyAuthority("ROLE_USER", "ROLE_ADMIN")
-
-                // Catch-all
                 .anyRequest().authenticated()
             );
 
@@ -72,17 +62,15 @@ public class SecurityConfig {
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration config = new CorsConfiguration();
         config.setAllowedOrigins(List.of(
-            // Local dev
+            // Local development
             "http://localhost:5173",
             "http://192.168.1.69:5173",
-            
 
-            // Production
-            "https://aa68580acfc2.ngrok-free.app",
-             "https://sulekha-aii.netlify.app",
+            // Ngrok and production
+            "https://129f83ca5a55.ngrok-free.app ",
+            "https://sulekha-aii.netlify.app",
             "https://sulekha-ai.netlify.app",
             "https://sulekha-w89v.onrender.com"
-            
         ));
         config.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
         config.setAllowedHeaders(List.of("Authorization", "Content-Type", "Accept"));
