@@ -18,11 +18,8 @@ import java.util.Optional;
 @RequestMapping("/auth")
 @CrossOrigin(origins = {
         "http://localhost:5173",
-        "http://192.168.1.69:5173",
-        "http://192.168.1.69",
-        "https://sulekha-aii.netlify.app",
-        "https://sulekha-w89v.onrender.com",
-        "https://129f83ca5a55.ngrok-free.app ",  // ✅ Add your actual Ngrok URL here
+        "http://192.168.1.200:5173",
+        "http://192.168.1.200:8081"
 })
 public class GoogleAuthController {
 
@@ -39,20 +36,19 @@ public class GoogleAuthController {
 
     @PostMapping("/google")
     public ResponseEntity<?> googleLogin(@RequestBody Map<String, String> body) {
-        String idTokenString = body.get("token");
-
-        if (idTokenString == null || idTokenString.trim().isEmpty()) {
-            logger.warn("Token is missing in request");
-            return ResponseEntity.badRequest().body(Map.of(
-                    "success", false,
-                    "message", "Token is missing"
-            ));
-        }
-
         try {
+            String idTokenString = body.get("token");
+
+            if (idTokenString == null || idTokenString.trim().isEmpty()) {
+                return ResponseEntity.badRequest().body(Map.of(
+                        "success", false,
+                        "message", "Token is missing"
+                ));
+            }
+
             GoogleIdToken idToken = verifier.verify(idTokenString);
 
-            if (idToken == null || idToken.getPayload() == null) {
+            if (idToken == null) {
                 logger.warn("Invalid or expired Google token");
                 return ResponseEntity.status(401).body(Map.of(
                         "success", false,
@@ -64,14 +60,13 @@ public class GoogleAuthController {
             String email = payload.getEmail();
             String name = Optional.ofNullable((String) payload.get("name")).orElse("User");
 
-            UserEntity user = userRepo.findByEmail(email)
-                    .orElseGet(() -> {
-                        UserEntity newUser = new UserEntity();
-                        newUser.setEmail(email);
-                        newUser.setName(name);
-                        newUser.setRole("ROLE_USER");
-                        return userRepo.save(newUser);
-                    });
+            UserEntity user = userRepo.findByEmail(email).orElseGet(() -> {
+                UserEntity newUser = new UserEntity();
+                newUser.setEmail(email);
+                newUser.setName(name);
+                newUser.setRole("ROLE_USER");
+                return userRepo.save(newUser);
+            });
 
             String jwt = jwtUtil.generateToken(user.getEmail(), user.getId(), user.getRole());
 

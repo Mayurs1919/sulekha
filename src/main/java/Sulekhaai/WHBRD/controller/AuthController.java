@@ -17,8 +17,9 @@ import java.util.*;
 @RequestMapping("/auth")
 @CrossOrigin(origins = {
         "http://localhost:5173",
-        "http://192.168.1.69:5173",
-        "https://129f83ca5a55.ngrok-free.app ",
+        "http://192.168.1.200:8081",
+        "http://192.168.1.200:5173",
+    
         "https://sulekha-aii.netlify.app"
 })
 public class AuthController {

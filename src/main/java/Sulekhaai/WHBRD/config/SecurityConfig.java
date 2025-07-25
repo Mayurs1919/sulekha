@@ -64,12 +64,12 @@ public class SecurityConfig {
         config.setAllowedOrigins(List.of(
             // Local development
             "http://localhost:5173",
-            "http://192.168.1.69:5173",
+            "http://192.168.1.200:8081",
+            "http://192.168.1.200:5173",
 
             // Ngrok and production
-            "https://129f83ca5a55.ngrok-free.app ",
+            
             "https://sulekha-aii.netlify.app",
-            "https://sulekha-ai.netlify.app",
             "https://sulekha-w89v.onrender.com"
         ));
         config.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));

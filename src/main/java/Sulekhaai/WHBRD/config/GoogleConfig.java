@@ -8,12 +8,13 @@ import org.springframework.context.annotation.Configuration;
 import java.util.Collections;
 
 @Configuration
-public class GoogleConfig {   // <-- rename class here to match filename
+public class GoogleConfig {
 
     @Bean
     public GoogleIdTokenVerifier googleIdTokenVerifier() {
         return new GoogleIdTokenVerifier.Builder(Utils.getDefaultTransport(), Utils.getDefaultJsonFactory())
-                .setAudience(Collections.singletonList("511398362528-45to0fhd9m86dkmeiek45a4o7uu7d5t5.apps.googleusercontent.com"))
+                .setAudience(Collections.singletonList("511398362528-h9gnha1nabteqsqn5bt0rr6b46c17aip.apps.googleusercontent.com"))
+
                 .build();
     }
 }
