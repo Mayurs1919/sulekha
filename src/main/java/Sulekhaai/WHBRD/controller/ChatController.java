@@ -15,8 +15,7 @@ import java.util.Map;
 @RequestMapping("/chat")
 @CrossOrigin(origins = {
         "http://localhost:5173",
-        "http://192.168.1.200:5173",
-        "http://192.168.1.200:8081",
+        "http://192.168.1.121:5173",
        
         "https://sulekha-aii.netlify.app"
 })
