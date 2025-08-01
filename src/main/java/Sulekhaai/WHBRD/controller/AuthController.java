@@ -107,7 +107,7 @@ public class AuthController {
         ));
     }
 
-    // ---------------------- SEND OTP ---------------------- //
+      // ---------------------- SEND OTP ---------------------- //
     @PostMapping(value = "/send-otp", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Map<String, Object>> sendOtp(@RequestBody Map<String, String> req) {
         String email = req.get("email");
@@ -121,13 +121,19 @@ public class AuthController {
 
         try {
             String otp = otpService.generateOtp(email);
+            System.out.println("[DEBUG] Generated OTP for " + email + ": " + otp);
+
             emailService.sendOtpEmail(email, otp);
+            System.out.println("[DEBUG] OTP email sent successfully to " + email);
+
             return ResponseEntity.ok(Map.of(
                     "success", true,
                     "message", "OTP sent to " + email
             ));
         } catch (Exception e) {
-            System.err.println("[ERROR] Failed to send OTP: " + e.getMessage());
+            System.err.println("[ERROR] Failed to send OTP to " + email + ": " + e.getMessage());
+            e.printStackTrace(); // ✅ log full error
+
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(Map.of(
                     "success", false,
                     "message", "Failed to send OTP. Please try again."
@@ -161,8 +167,10 @@ public class AuthController {
         if (isValid) {
             System.out.println("[DEBUG] OTP verified successfully for: " + email);
             Optional<UserEntity> userOpt = userRepo.findByEmail(email);
+
             if (userOpt.isPresent()) {
                 String token = jwtUtil.generateToken(email, userOpt.get().getId(), userOpt.get().getRole());
+
                 return ResponseEntity.ok(Map.of(
                         "success", true,
                         "message", "OTP verified successfully",
@@ -185,3 +193,4 @@ public class AuthController {
         }
     }
 }
+

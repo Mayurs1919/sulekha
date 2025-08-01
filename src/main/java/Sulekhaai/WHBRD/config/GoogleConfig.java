@@ -12,9 +12,13 @@ public class GoogleConfig {
 
     @Bean
     public GoogleIdTokenVerifier googleIdTokenVerifier() {
-        return new GoogleIdTokenVerifier.Builder(Utils.getDefaultTransport(), Utils.getDefaultJsonFactory())
-                .setAudience(Collections.singletonList("511398362528-h9gnha1nabteqsqn5bt0rr6b46c17aip.apps.googleusercontent.com"))
-
-                .build();
+        return new GoogleIdTokenVerifier.Builder(
+                Utils.getDefaultTransport(),
+                Utils.getDefaultJsonFactory()
+        )
+        .setAudience(Collections.singletonList(
+                "370380922779-7eu8og3sgec1qflnmf8sqkg5d7fblq36.apps.googleusercontent.com"
+        ))
+        .build();
     }
 }

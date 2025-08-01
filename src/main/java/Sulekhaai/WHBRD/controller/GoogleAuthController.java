@@ -40,12 +40,14 @@ public class GoogleAuthController {
             String idTokenString = body.get("token");
 
             if (idTokenString == null || idTokenString.trim().isEmpty()) {
+                logger.warn("Missing token in request");
                 return ResponseEntity.badRequest().body(Map.of(
                         "success", false,
                         "message", "Token is missing"
                 ));
             }
 
+            // Verify the Google token
             GoogleIdToken idToken = verifier.verify(idTokenString);
 
             if (idToken == null) {
@@ -56,10 +58,25 @@ public class GoogleAuthController {
                 ));
             }
 
+            // Manual expiration check (optional but good for debugging)
+            long expiry = idToken.getPayload().getExpirationTimeSeconds();
+            long now = System.currentTimeMillis() / 1000;
+            if (expiry < now) {
+                logger.warn("Google token expired. Exp: {}, Now: {}", expiry, now);
+                return ResponseEntity.status(401).body(Map.of(
+                        "success", false,
+                        "message", "Token has expired"
+                ));
+            }
+
+            // Extract user info
             GoogleIdToken.Payload payload = idToken.getPayload();
             String email = payload.getEmail();
             String name = Optional.ofNullable((String) payload.get("name")).orElse("User");
 
+            logger.info("Google sign-in verified: {}", email);
+
+            // Find or create user
             UserEntity user = userRepo.findByEmail(email).orElseGet(() -> {
                 UserEntity newUser = new UserEntity();
                 newUser.setEmail(email);
@@ -68,8 +85,10 @@ public class GoogleAuthController {
                 return userRepo.save(newUser);
             });
 
+            // Generate JWT
             String jwt = jwtUtil.generateToken(user.getEmail(), user.getId(), user.getRole());
 
+            // Return response
             return ResponseEntity.ok(Map.of(
                     "success", true,
                     "jwt", jwt,
