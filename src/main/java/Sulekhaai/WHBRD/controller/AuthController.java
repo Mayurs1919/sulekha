@@ -19,7 +19,6 @@ import java.util.*;
         "http://localhost:5173",
         "http://192.168.1.121:8081",
         "http://192.168.1.121:5173",
-    
         "https://sulekha-aii.netlify.app"
 })
 public class AuthController {
@@ -107,7 +106,7 @@ public class AuthController {
         ));
     }
 
-      // ---------------------- SEND OTP ---------------------- //
+    // ---------------------- SEND OTP ---------------------- //
     @PostMapping(value = "/send-otp", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Map<String, Object>> sendOtp(@RequestBody Map<String, String> req) {
         String email = req.get("email");
@@ -123,7 +122,7 @@ public class AuthController {
             String otp = otpService.generateOtp(email);
             System.out.println("[DEBUG] Generated OTP for " + email + ": " + otp);
 
-            emailService.sendOtpEmail(email, otp);
+            emailService.sendOtpEmail(email, otp); // Will throw if mail fails
             System.out.println("[DEBUG] OTP email sent successfully to " + email);
 
             return ResponseEntity.ok(Map.of(
@@ -132,8 +131,7 @@ public class AuthController {
             ));
         } catch (Exception e) {
             System.err.println("[ERROR] Failed to send OTP to " + email + ": " + e.getMessage());
-            e.printStackTrace(); // ✅ log full error
-
+            e.printStackTrace();
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(Map.of(
                     "success", false,
                     "message", "Failed to send OTP. Please try again."
@@ -193,4 +191,3 @@ public class AuthController {
         }
     }
 }
-

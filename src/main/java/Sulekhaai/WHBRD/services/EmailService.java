@@ -18,4 +18,4 @@ public class EmailService {
         message.setText("Your OTP code is: " + otp + "\n\nThis code is valid for a short time. Do not share it with anyone.");
         mailSender.send(message);
     }
-} 
+}
