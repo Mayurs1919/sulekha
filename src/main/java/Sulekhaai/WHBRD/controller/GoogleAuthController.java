@@ -19,6 +19,8 @@ import java.util.Optional;
 @CrossOrigin(origins = {
         "http://localhost:5173",
         "http://192.168.1.121:5173",
+        "http://103.35.134.173",
+        "http://localhost:3001",
         "http://192.168.1.121:8081"
 })
 public class GoogleAuthController {

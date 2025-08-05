@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.*;
             "http://localhost:5173",
             "http://192.168.1.121:5173",   
             "http://192.168.1.121:8081", 
+            "http://103.35.134.173",
+            "http://localhost:3001",
             "https://sulekha-aii.netlify.app"
         },
         allowCredentials = "true")
