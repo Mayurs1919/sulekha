@@ -14,7 +14,7 @@ import java.util.Map;
 @RestController
 @RequestMapping("/chat")
 @CrossOrigin(origins = {
-        "http://localhost:5173",
+        "http://localhost:3000/",
         "http://192.168.1.121:5173",
         "http://103.35.134.173",
         "http://localhost:3001",
