@@ -16,7 +16,7 @@ import java.util.*;
 @RestController
 @RequestMapping("/auth")
 @CrossOrigin(origins = {
-        "http://localhost:3000/",
+        "http://localhost:3000",
         "http://localhost:3001",
         "http://192.168.1.121:8081",
         "http://103.35.134.173",

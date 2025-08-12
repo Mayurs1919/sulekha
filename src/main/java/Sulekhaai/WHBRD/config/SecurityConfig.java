@@ -167,6 +167,8 @@ public class SecurityConfig {
 
             "http://localhost:3001",
 
+            "http://localhost:3000",
+
             "http://127.0.0.1:5173",
 
             "http://127.0.0.1:3000",
@@ -185,7 +187,7 @@ public class SecurityConfig {
 
         config.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
 
-        config.setAllowedHeaders(List.of("Authorization", "Content-Type", "Accept"));
+        config.setAllowedHeaders(List.of("*", "Authorization", "Content-Type", "Accept", "X-Requested-With", "Origin"));
 
         config.setExposedHeaders(List.of("Authorization"));
 
