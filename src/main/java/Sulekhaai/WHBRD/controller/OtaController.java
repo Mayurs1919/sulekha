@@ -52,13 +52,12 @@ public class OtaController {
     @GetMapping("/latest")
     public ResponseEntity<Resource> downloadLatestFirmware() {
         try {
-            java.io.File firmwareFile = otaService.getLatestFirmware();
-            if (firmwareFile == null || !firmwareFile.exists()) {
+            Resource firmware = otaService.getLatestFirmware();
+            if (firmware == null || !firmware.exists()) {
                 return ResponseEntity.status(HttpStatus.NOT_FOUND)
                         .body(null);
             }
 
-            Resource firmware = new org.springframework.core.io.FileSystemResource(firmwareFile);
             logger.info("⬇️ Firmware downloaded: " + firmware.getFilename());
 
             return ResponseEntity.ok()

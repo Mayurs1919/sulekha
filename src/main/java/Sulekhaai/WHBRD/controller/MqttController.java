@@ -13,13 +13,10 @@ public class MqttController {
     private MqttClient mqttClient;
 
     @PostMapping("/publish")
-    public String publishMessage(
-            @RequestParam String topic,
-            @RequestParam String message
-    ) {
+    public String publishMessage(@RequestParam String topic, @RequestParam String message) {
         try {
             MqttMessage mqttMessage = new MqttMessage(message.getBytes());
-            mqttMessage.setQos(1); // QoS level: 0, 1, 2
+            mqttMessage.setQos(1); // QoS: 0, 1, or 2
             mqttClient.publish(topic, mqttMessage);
             return "✅ Message published to topic: " + topic;
         } catch (Exception e) {
@@ -30,10 +27,8 @@ public class MqttController {
 
     @GetMapping("/status")
     public String getStatus() {
-        if (mqttClient.isConnected()) {
-            return "✅ MQTT Client is connected to broker.";
-        } else {
-            return "⚠️ MQTT Client is NOT connected.";
-        }
+        return mqttClient.isConnected()
+                ? "✅ MQTT Client is connected to broker."
+                : "⚠️ MQTT Client is NOT connected.";
     }
 }
